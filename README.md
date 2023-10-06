@@ -14,7 +14,7 @@
 - Enter:" pip install psycopg2 " then restart the terminal
 - Enter:" pip install python-dotenv " then restart the terminal
 - Create a new python package/directory/folder inside YourProjectName and name it YourAppName
-- If a python file named " __init__.py " is created, rename it to " init_db.py ", otherwise, create it manually inside the YourAppName folder/package
+- If a python file named " \__init__.py\ " is created, rename it to " init_db.py ", otherwise, create it manually inside the YourAppName folder/package
 
 ## DB SETUP
 - Ensure psycopg2 is installed
@@ -51,7 +51,7 @@ conn.close()
 ```
 - Open the terminal, make sure you are in the same directory with the init_db.py (cd YourAppName) and run the command " python init_db.py " to migrate the table
 - Create a new python file inside YourAppName folder/package and name it " app.py "
-- There, you will have to define your db connection again, you will also configure your application's routes there
+- There, you will have to define your db connection again, you will also configure your application's routes and main functions there
 - Create a templates folder/package/directory in YourAppName and add your html pages there
 - Open your terminal and make sure you are in your app directory or use cd YourAppName
 - Then run the command:" flask run "
