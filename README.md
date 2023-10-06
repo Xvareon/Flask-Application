@@ -14,7 +14,7 @@
 - Enter:" pip install psycopg2 " then restart the terminal
 - Enter:" pip install python-dotenv " then restart the terminal
 - Create a new python package/directory/folder inside YourProjectName and name it YourAppName
-- If a python file named " \__init__.py\ " is created, rename it to " init_db.py ", otherwise, create it manually inside the YourAppName folder/package
+- If a python file named " /__init__.py/ " is created, rename it to " init_db.py ", otherwise, create it manually inside the YourAppName folder/package
 
 ## DB SETUP
 - Ensure psycopg2 is installed
