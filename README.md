@@ -57,6 +57,7 @@ conn.close()
 - Then run the command:" flask run "
 
 ## AND YOU ARE SET!
+- Make sure your installed python packages/dependency versions do not conflict with other python applications
 
 ## =================================================
 

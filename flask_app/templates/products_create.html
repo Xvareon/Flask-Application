@@ -8,7 +8,10 @@
 </head>
 <body>
 
-    <h1>Create Product</h1>
+    <a href="{{ url_for('products_create_form') }}"><h2>Create Product</h2></a><br>
+
+    <a href="{{ url_for('products_index') }}">Back to Product List</a><br>
+
     <form action="/products/create" method="post">
 
         <label for="name">Name</label>
