@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Product</title>
+</head>
+<body>
+
+    <a href="{{ url_for('products_view', id=product.id) }}"><h2>View Product</h2></a><br>
+
+    <a href="{{ url_for('products_index') }}">Back to Product List</a><br>
+
+    <p><strong>ID:</strong> {{ product.id }}</p>
+    <p><strong>Name:</strong> {{ product.name }}</p>
+    <p><strong>Variant:</strong> {{ product.variant }}</p>
+    <p><strong>Qty:</strong> {{ product.qty }}</p>
+    <p><strong>Price:</strong> {{ product.price }}</p>
+    <p><strong>Description:</strong> {{ product.description }}</p>
+
+    <br><td><a href="{{ url_for('products_update_form', id=product.id) }}">Edit</a></td>
+    <br><td>
+        <form action="/products/delete/{{ product.id }}" method="post">
+            <input type="submit" value="Delete Product">
+        </form>
+    </td>
+
+</body>
+</html>

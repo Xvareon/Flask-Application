@@ -13,7 +13,7 @@ def index():
 
 @app.route('/products')
 def products_index():
-    products = session.query(Product).all()
+    products = session.query(Product).order_by(Product.id).all()
     return render_template('products_index.html', products=products)
 
 
@@ -67,6 +67,24 @@ def products_update(id):
         product.price = request.form['price']
         product.description = request.form['description']
 
+        session.commit()
+        return redirect(url_for('products_index'))
+    else:
+        return "Product not found", 404
+
+@app.route('/products/view/<int:id>', methods=['GET'])
+def products_view(id):
+    product = session.query(Product).filter(Product.id == id).first()
+    if product:
+        return render_template('products_view.html', product=product)
+    else:
+        return "Product not found", 404
+
+@app.route('/products/delete/<int:id>', methods=['POST'])
+def products_delete(id):
+    product = session.query(Product).filter(Product.id == id).first()
+    if product:
+        session.delete(product)
         session.commit()
         return redirect(url_for('products_index'))
     else:

@@ -34,7 +34,13 @@
                 <td>{{ product.price }}</td>
                 <td>{{ product.description }}</td>
 
+                <td><a href="{{ url_for('products_view', id=product.id) }}">View</a></td>
                 <td><a href="{{ url_for('products_update_form', id=product.id) }}">Edit</a></td>
+                <td>
+                    <form action="/products/delete/{{ product.id }}" method="post">
+                        <input type="submit" value="Delete">
+                    </form>
+                </td>
         </tr>
 
 
