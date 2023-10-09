@@ -47,6 +47,31 @@ def products_create():
     # If an error occurred
     return redirect(url_for('index'))
 
+@app.route('/products/update/<int:id>', methods=['GET'])
+def products_update_form(id):
+    product = session.query(Product).filter(Product.id == id).first()
+    if product:
+        return render_template('products_update.html', product=product)
+    else:
+        return "Product not found", 404
+
+
+@app.route('/products/update/<int:id>', methods=['POST'])
+def products_update(id):
+    product = session.query(Product).filter(Product.id == id).first()
+    if product:
+
+        product.name = request.form['name']
+        product.variant = request.form['variant']
+        product.qty = request.form['qty']
+        product.price = request.form['price']
+        product.description = request.form['description']
+
+        session.commit()
+        return redirect(url_for('products_index'))
+    else:
+        return "Product not found", 404
+
 
 if __name__ == '__main__':
     app.run(debug=True)
