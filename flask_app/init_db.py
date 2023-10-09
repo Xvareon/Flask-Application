@@ -1,14 +1,24 @@
-import psycopg2
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
+from models import Base, Product
+
+# Load environment variables
 import environ
 env = environ.Env()
 environ.Env.read_env()
 
-conn = psycopg2.connect(database=env("DB_NAME"), host=env("DB_HOST"), user=env("DB_USER"), password=env("DB_PASSWORD"), port=env("DB_PORT"))
-cur = conn.cursor()
+# Create engine
+db_url = f'postgresql://{env("DB_USER")}:{env("DB_PASSWORD")}@{env("DB_HOST")}:{env("DB_PORT")}/{env("DB_NAME")}'
+engine = create_engine(db_url)
 
-# one model table
-cur.execute('''CREATE TABLE IF NOT EXISTS products (id serial PRIMARY KEY, name varchar(100), variant integer, qty integer, price float, description varchar(255));''')
+# Create tables
+Base.metadata.create_all(engine)
 
-conn.commit()
-cur.close()
-conn.close()
+# Create a session
+Session = sessionmaker(bind=engine)
+session = Session()
+
+# Commit the session and close it
+session.commit()
+session.close()

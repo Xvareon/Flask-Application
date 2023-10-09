@@ -1,16 +1,9 @@
-import psycopg2
-import environ
-
-env = environ.Env()
 from flask import Flask, render_template, request, redirect, url_for
+from models import Product, Base
+from init_db import engine, session
 
 app = Flask(__name__)
-
-
-def db_conn():
-    conn = psycopg2.connect(database=env("DB_NAME"), host=env("DB_HOST"), user=env("DB_USER"),
-                            password=env("DB_PASSWORD"), port=env("DB_PORT"))
-    return conn
+Base.metadata.create_all(engine)
 
 
 @app.route('/')
@@ -20,12 +13,7 @@ def index():
 
 @app.route('/products')
 def products_index():
-    conn = db_conn()
-    cur = conn.cursor()
-    cur.execute('''SELECT * FROM products''')
-    products = cur.fetchall()
-    cur.close()
-    conn.close()
+    products = session.query(Product).all()
     return render_template('products_index.html', products=products)
 
 
@@ -38,21 +26,27 @@ def products_create_form():
 @app.route('/products/create', methods=['POST'])
 def products_create():
     if request.method == 'POST':
-        conn = db_conn()
-        cur = conn.cursor()
         name = request.form['name']
         variant = request.form['variant']
         qty = request.form['qty']
         price = request.form['price']
         description = request.form['description']
-        cur.execute(
-            'INSERT INTO products (name, variant, qty, price, description) VALUES (%s, %s, %s, %s, %s)',
-            (name, variant, qty, price, description)
+
+        new_product = Product(
+            name=name,
+            variant=variant,
+            qty=qty,
+            price=price,
+            description=description
         )
-        conn.commit()
-        cur.close()
-        conn.close()
+
+        session.add(new_product)
+        session.commit()
         return redirect(url_for('products_index'))
 
     # If an error occurred
     return redirect(url_for('index'))
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
